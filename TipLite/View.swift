@@ -115,8 +115,6 @@ class TipView: UIView {
         stepper.value = 1
         stepper.stepValue = 1
         stepper.translatesAutoresizingMaskIntoConstraints = false
-        
-        stepper.addTarget(TipView.self, action: #selector(update(_:)), for: .valueChanged) // ONEMLI: Eger duzgun calismazsa Tipview.self ten kaynakli olabilir. ViewController i vermeyi dene. ya da diger bir secenek observer eklenebilir.
         return stepper
     }()
     
@@ -323,10 +321,22 @@ class TipView: UIView {
         ])
     }
     
+
+
+
     // MARK: - Functions
 
+    // Stepper update
     @objc func update(_ stepper: UIStepper) {
         print(stepper.value) // Konsola yazdirmaca
         stepperValueLabel.text = String(Int(stepper.value)) // label in icini guncellemeye calismaca
     }
+    
+    
+
+    
+    
+    
+    
+
 }
