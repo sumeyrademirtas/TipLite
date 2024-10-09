@@ -10,6 +10,18 @@ import UIKit
 class TipView: UIView {
     // MARK: - Properties
     
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+       
+    let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let enterBillLabel: UILabel = {
         let label = UILabel()
         label.text = "Enter total bill"
@@ -23,8 +35,10 @@ class TipView: UIView {
     let billTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
-        textField.font = .systemFont(ofSize: .init(16))
+        textField.font = .systemFont(ofSize: .init(20))
         textField.textColor = .label
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = .init(10)
         textField.keyboardType = .decimalPad
         textField.placeholder = "$0.00"
         textField.textAlignment = .center
@@ -74,16 +88,6 @@ class TipView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-//    let tipCustomButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Custom", for: .normal)
-//        button.setTitleColor(.label, for: .normal)
-//        button.backgroundColor = .systemGray6
-//        button.layer.cornerRadius = .init(10)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
     
     let customTipTextField: UITextField = {
         let textField = UITextField()
@@ -140,7 +144,7 @@ class TipView: UIView {
         let label = UILabel()
         label.text = "$0.00"
         label.textColor = UIColor.darkGreen
-        label.font = .boldSystemFont(ofSize: .init(40))
+        label.font = .boldSystemFont(ofSize: .init(48))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -148,7 +152,7 @@ class TipView: UIView {
     let billLabel: UILabel = {
         let label = UILabel()
         label.text = "Bill"
-        label.font = .systemFont(ofSize: .init(22))
+        label.font = .systemFont(ofSize: .init(20))
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -157,8 +161,8 @@ class TipView: UIView {
     let billPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.textColor = .label
-        label.font = .boldSystemFont(ofSize: .init(22))
+        label.textColor = UIColor.darkGreen
+        label.font = .boldSystemFont(ofSize: .init(20))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -166,7 +170,7 @@ class TipView: UIView {
     let tipLabel: UILabel = {
         let label = UILabel()
         label.text = "Tip"
-        label.font = .systemFont(ofSize: .init(22))
+        label.font = .systemFont(ofSize: .init(20))
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -175,8 +179,8 @@ class TipView: UIView {
     let tipPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.textColor = .label
-        label.font = .boldSystemFont(ofSize: .init(22))
+        label.textColor = UIColor.darkGreen
+        label.font = .boldSystemFont(ofSize: .init(20))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -197,13 +201,14 @@ class TipView: UIView {
     // MARK: - UI Setup
 
     private func setupUI() {
+        addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
         let enterBillStack = UIStackView(arrangedSubviews: [enterBillLabel, billTextField])
         
         let percentageStack1 = UIStackView(arrangedSubviews: [tip10Button, tip15Button])
         let percentageStack2 = UIStackView(arrangedSubviews: [tip20Button, customTipTextField])
         let wholePercentageStack = UIStackView(arrangedSubviews: [chooseTipLabel, percentageStack1, percentageStack2])
-        
-     
         
         let stepperStack = UIStackView(arrangedSubviews: [peopleStepper, stepperValueLabel])
         let splitAllStack = UIStackView(arrangedSubviews: [splitlabel, stepperStack])
@@ -214,18 +219,22 @@ class TipView: UIView {
         
         let tipStack = UIStackView(arrangedSubviews: [tipLabel, tipPriceLabel])
             
-        //let lastBottomStack = UIStackView(arrangedSubviews: [totalPerPersonStack, billStack, tipStack])
+        // let lastBottomStack = UIStackView(arrangedSubviews: [totalPerPersonStack, billStack, tipStack])
         
         let billAndTipStack = UIStackView(arrangedSubviews: [billStack, tipStack])
         
         let totalAndBillTipStack = UIStackView(arrangedSubviews: [totalPerPersonStack, billAndTipStack])
         
-        addSubview(enterBillStack)
+        contentView.addSubview(enterBillStack)
+        contentView.addSubview(wholePercentageStack)
+        contentView.addSubview(splitAllStack)
+        contentView.addSubview(totalAndBillTipStack)
+        
+//        addSubview(enterBillStack)
         enterBillStack.axis = .vertical
         enterBillStack.spacing = 15
         enterBillStack.alignment = .center
         enterBillStack.translatesAutoresizingMaskIntoConstraints = false
-        
         
         percentageStack1.axis = .horizontal
         percentageStack1.spacing = 15
@@ -237,19 +246,18 @@ class TipView: UIView {
         percentageStack2.distribution = .fillEqually
         percentageStack2.translatesAutoresizingMaskIntoConstraints = false
         
-        addSubview(wholePercentageStack)
+//        addSubview(wholePercentageStack)
         wholePercentageStack.axis = .vertical
         wholePercentageStack.spacing = 15
         wholePercentageStack.alignment = .center
         wholePercentageStack.translatesAutoresizingMaskIntoConstraints = false
-        
         
         stepperStack.axis = .horizontal
         stepperStack.spacing = 15
         stepperStack.alignment = .center
         stepperStack.translatesAutoresizingMaskIntoConstraints = false
         
-        addSubview(splitAllStack)
+//        addSubview(splitAllStack)
         splitAllStack.axis = .vertical
         splitAllStack.spacing = 15
         splitAllStack.alignment = .center
@@ -275,55 +283,65 @@ class TipView: UIView {
         billAndTipStack.alignment = .center
         billAndTipStack.translatesAutoresizingMaskIntoConstraints = false
         
-        
-        addSubview(totalAndBillTipStack)
+//        addSubview(totalAndBillTipStack)
         totalAndBillTipStack.axis = .vertical
         totalAndBillTipStack.spacing = 20
         totalAndBillTipStack.alignment = .center
         totalAndBillTipStack.translatesAutoresizingMaskIntoConstraints = false
         totalAndBillTipStack.backgroundColor = UIColor.lightGreen
     
-        
         NSLayoutConstraint.activate([
+            // ScrollView constraints
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                           
+            // contentView constraints
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor), // scroll yatay kaymamalı
             
             // enterBillStack constraints
-            enterBillStack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            enterBillStack.topAnchor.constraint(equalTo: topAnchor, constant: 100),
-            enterBillStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            enterBillStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            billTextField.widthAnchor.constraint(equalToConstant: 100),
-            
-            
+            enterBillStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            enterBillStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 100),
+            enterBillStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            enterBillStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            billTextField.widthAnchor.constraint(equalToConstant: 130),
+
             // wholePercentageStack constraints
-            wholePercentageStack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            wholePercentageStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             wholePercentageStack.topAnchor.constraint(equalTo: enterBillStack.bottomAnchor, constant: 30),
-            wholePercentageStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            wholePercentageStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            
+            wholePercentageStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            wholePercentageStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+
             tip10Button.widthAnchor.constraint(equalToConstant: 130),
             tip15Button.widthAnchor.constraint(equalToConstant: 130),
             tip20Button.widthAnchor.constraint(equalToConstant: 130),
-            
-            // splitAllStack constraints
-            splitAllStack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            splitAllStack.topAnchor.constraint(equalTo: wholePercentageStack.bottomAnchor, constant: 30),
-            splitAllStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            splitAllStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            
 
+            // splitAllStack constraints
+            splitAllStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            splitAllStack.topAnchor.constraint(equalTo: wholePercentageStack.bottomAnchor, constant: 30),
+            splitAllStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            splitAllStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
 
             // totalAndBillTipStack constraints (splitAllStack'in altında)
-            totalAndBillTipStack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            totalAndBillTipStack.topAnchor.constraint(equalTo: splitAllStack.bottomAnchor, constant: 30),
-            totalAndBillTipStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            totalAndBillTipStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            totalAndBillTipStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            totalAndBillTipStack.topAnchor.constraint(equalTo: splitAllStack.bottomAnchor, constant: 50),
+            totalAndBillTipStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
+            totalAndBillTipStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
+            
+            totalAndBillTipStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
 
+            totalPerPersonStack.topAnchor.constraint(equalTo: totalAndBillTipStack.topAnchor, constant: 20), // 20 birim üst boşluk
+        
         ])
+        totalAndBillTipStack.isLayoutMarginsRelativeArrangement = true
+        totalAndBillTipStack.layoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     }
     
-
-
-
     // MARK: - Functions
 
     // Stepper update
@@ -331,12 +349,4 @@ class TipView: UIView {
         print(stepper.value) // Konsola yazdirmaca
         stepperValueLabel.text = String(Int(stepper.value)) // label in icini guncellemeye calismaca
     }
-    
-    
-
-    
-    
-    
-    
-
 }

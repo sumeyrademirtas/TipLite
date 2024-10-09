@@ -29,6 +29,6 @@ extension UIColor {
       }
     
     static var darkGreen: UIColor {
-        return UIColor(hex: "4DA36C")
+        return UIColor(hex: "3f855c")
     }
 }

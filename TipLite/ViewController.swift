@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     // MARK: - Properties
 
     var tipView = TipView()
-    var selectedTipPercentage: Double = 10.0 // Default tip
+    var selectedTipPercentage: Double = 0.0 // Default tip
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,14 @@ class ViewController: UIViewController {
         title = "TipLite"
         setupUI()
         setupTargets()
+        
+        // Klavye kapatmak için tap gesture ekleyelim
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        
+        // Klavye açıldığında ve kapandığında bildirimleri dinle
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     // MARK: - UI Setup
@@ -34,6 +42,23 @@ class ViewController: UIViewController {
             tipView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tipView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    // Keyboard will show
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            tipView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+        }
+    }
+    
+    // Keyboard will hide
+    @objc func keyboardWillHide(notification: NSNotification) {
+        tipView.scrollView.contentInset = .zero
     }
     
     // Tip button funcs
@@ -64,39 +89,45 @@ class ViewController: UIViewController {
         updateTipCalculation()
     }
     
-    // Custom tip text field'deki değişiklikleri işleme
+    
     @objc func customTipChanged(_ sender: UITextField) {
-        // Eğer customTipTextField'in içi doluysa arka plan ve metin rengini değiştir
-        if let customTipText = sender.text, !customTipText.isEmpty {
-            // TextField doluysa renkleri değiştir
+        if var customTipText = sender.text, !customTipText.isEmpty {
+            // Virgülü noktaya çevir
+            customTipText = customTipText.replacingOccurrences(of: ",", with: ".")
+            sender.text = customTipText
+            
+            // Text doluysa arka plan ve renk değişsin
             sender.backgroundColor = UIColor.darkGreen
             sender.textColor = .white
+            
+            // Girilen değer geçerliyse onu kullan, değilse 0 yap
+            if let customTip = Double(customTipText) {
+                selectedTipPercentage = customTip
+            } else {
+                selectedTipPercentage = 0.0 // Geçerli bir sayı değilse 0 olarak algıla
+            }
         } else {
-            // TextField boşsa varsayılan renklere dön
+            // Eğer TextField tamamen boşsa bahşiş oranını 0 yap
+            selectedTipPercentage = 0.0
             sender.backgroundColor = .systemGray6
             sender.textColor = .label
         }
         
-        // Eğer customTipTextField'e yazı yazılmaya başlanırsa butonların seçimi kalksın
-        tipView.tip10Button.setSelected(false)
-        tipView.tip15Button.setSelected(false)
-        tipView.tip20Button.setSelected(false)
-        
-        guard let customTipText = sender.text, let customTip = Double(customTipText) else {
-            return
-        }
-        // Custom girilen değeri kullan
-        selectedTipPercentage = customTip
+        // Her değişiklikten sonra hesaplamayı güncelle
         updateTipCalculation()
     }
     
     @objc func billAmountChanged(_ sender: UITextField) {
-        if let billAmountText = sender.text, billAmountText.isEmpty {
+        if var billAmountText = sender.text, !billAmountText.isEmpty {
+            // Virgülü noktaya çevir
+            billAmountText = billAmountText.replacingOccurrences(of: ",", with: ".")
+            sender.text = billAmountText
+            
+            // Normal hesaplama işlemini yap
+            updateTipCalculation()
+        } else {
             // Eğer metin boşsa, label'ları sıfırla
             resetLabelsToDefault()
-        } else {
-            // Metin boş değilse, normal hesaplama işlemini yap
-            updateTipCalculation()
         }
     }
     
@@ -143,7 +174,7 @@ extension UIButton {
             backgroundColor = UIColor.darkGreen
             setTitleColor(.white, for: .normal)
         } else {
-            backgroundColor = .systemGray6 
+            backgroundColor = .systemGray6
             setTitleColor(.label, for: .normal)
         }
     }
