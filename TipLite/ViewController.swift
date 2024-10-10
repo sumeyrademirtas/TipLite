@@ -113,6 +113,10 @@ class ViewController: UIViewController {
             sender.textColor = .label
         }
         
+        tipView.tip10Button.setSelected(false)
+        tipView.tip15Button.setSelected(false)
+        tipView.tip20Button.setSelected(false)
+        
         // Her değişiklikten sonra hesaplamayı güncelle
         updateTipCalculation()
     }
