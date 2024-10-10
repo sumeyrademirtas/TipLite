@@ -22,6 +22,23 @@ class TipView: UIView {
         return view
     }()
     
+    // headerView, başlık alanı için
+    let headerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .mainOrange
+        return view
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "TipLite"
+        label.font = .boldSystemFont(ofSize: 30)
+        label.textColor = UIColor.lightOrange
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     let enterBillLabel: UILabel = {
         let label = UILabel()
         label.text = "Enter total bill"
@@ -119,6 +136,7 @@ class TipView: UIView {
         stepper.value = 1
         stepper.stepValue = 1
         stepper.translatesAutoresizingMaskIntoConstraints = false
+        stepper.layer.cornerRadius = 10
         return stepper
     }()
     
@@ -127,7 +145,7 @@ class TipView: UIView {
         label.text = "1"
         label.textColor = .label
         label.textAlignment = .center
-        label.layer.cornerRadius = 5
+        label.layer.cornerRadius = 10
         label.backgroundColor = UIColor.mainOrange
         label.font = .boldSystemFont(ofSize: .init(20))
         label.layer.masksToBounds = true
@@ -195,6 +213,12 @@ class TipView: UIView {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         setupUI()
+        applyWaveEffectToHeader()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        applyWaveEffectToHeader() // Header view'e dalga efektini burada uyguluyoruz.
     }
     
     @available(*, unavailable)
@@ -207,6 +231,8 @@ class TipView: UIView {
     private func setupUI() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
+        contentView.addSubview(headerView)
+        headerView.addSubview(titleLabel)
         
         let enterBillStack = UIStackView(arrangedSubviews: [enterBillLabel, billTextField])
         
@@ -214,8 +240,6 @@ class TipView: UIView {
         let percentageStack2 = UIStackView(arrangedSubviews: [tip20Button, customTipTextField])
         let wholePercentageStack = UIStackView(arrangedSubviews: [chooseTipLabel, percentageStack1, percentageStack2])
         
-//        let stepperStack = UIStackView(arrangedSubviews: [peopleStepper, stepperValueLabel])
-//        let splitAllStack = UIStackView(arrangedSubviews: [splitlabel, stepperStack])
         
         let stepperStack = UIStackView(arrangedSubviews: [splitlabel, stepperValueLabel])
         let splitAllStack = UIStackView(arrangedSubviews: [stepperStack, peopleStepper])
@@ -225,9 +249,7 @@ class TipView: UIView {
         let billStack = UIStackView(arrangedSubviews: [billLabel, billPriceLabel])
         
         let tipStack = UIStackView(arrangedSubviews: [tipLabel, tipPriceLabel])
-            
-        // let lastBottomStack = UIStackView(arrangedSubviews: [totalPerPersonStack, billStack, tipStack])
-        
+                    
         let billAndTipStack = UIStackView(arrangedSubviews: [billStack, tipStack])
         
         let totalAndBillTipStack = UIStackView(arrangedSubviews: [totalPerPersonStack, billAndTipStack])
@@ -237,7 +259,6 @@ class TipView: UIView {
         contentView.addSubview(splitAllStack)
         contentView.addSubview(totalAndBillTipStack)
         
-//        addSubview(enterBillStack)
         enterBillStack.axis = .vertical
         enterBillStack.spacing = 15
         enterBillStack.alignment = .center
@@ -253,7 +274,6 @@ class TipView: UIView {
         percentageStack2.distribution = .fillEqually
         percentageStack2.translatesAutoresizingMaskIntoConstraints = false
         
-//        addSubview(wholePercentageStack)
         wholePercentageStack.axis = .vertical
         wholePercentageStack.spacing = 15
         wholePercentageStack.alignment = .center
@@ -264,7 +284,6 @@ class TipView: UIView {
         stepperStack.alignment = .center
         stepperStack.translatesAutoresizingMaskIntoConstraints = false
         
-//        addSubview(splitAllStack)
         splitAllStack.axis = .vertical
         splitAllStack.spacing = 15
         splitAllStack.alignment = .center
@@ -290,12 +309,12 @@ class TipView: UIView {
         billAndTipStack.alignment = .center
         billAndTipStack.translatesAutoresizingMaskIntoConstraints = false
         
-//        addSubview(totalAndBillTipStack)
         totalAndBillTipStack.axis = .vertical
         totalAndBillTipStack.spacing = 20
         totalAndBillTipStack.alignment = .center
         totalAndBillTipStack.translatesAutoresizingMaskIntoConstraints = false
         totalAndBillTipStack.backgroundColor = UIColor.mainOrange
+        totalAndBillTipStack.layer.cornerRadius = 10
     
         NSLayoutConstraint.activate([
             // ScrollView constraints
@@ -309,7 +328,17 @@ class TipView: UIView {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor), // scroll yatay kaymamalı
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            // headerView constraints
+            headerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 100),
+                        
+            // titleLabel constraints
+            titleLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: -10),
             
             // enterBillStack constraints
             enterBillStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -337,12 +366,11 @@ class TipView: UIView {
             stepperValueLabel.widthAnchor.constraint(equalToConstant: 40),
             stepperValueLabel.heightAnchor.constraint(equalTo: splitlabel.heightAnchor),
 
-
             // totalAndBillTipStack constraints (splitAllStack'in altında)
             totalAndBillTipStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             totalAndBillTipStack.topAnchor.constraint(equalTo: splitAllStack.bottomAnchor, constant: 50),
-            totalAndBillTipStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
-            totalAndBillTipStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
+            totalAndBillTipStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            totalAndBillTipStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             totalAndBillTipStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
 
@@ -354,6 +382,42 @@ class TipView: UIView {
     }
     
     // MARK: - Functions
+    
+    // MARK: - Dalga Efekti Ekleme
+        
+    private func applyWaveEffectToHeader() {
+        let waveLayer = CAShapeLayer()
+        waveLayer.path = createWavePath().cgPath
+        waveLayer.fillColor = UIColor.green.cgColor
+            
+        headerView.layer.mask = waveLayer
+    }
+    
+    // CreateWave func
+    private func createWavePath() -> UIBezierPath {
+        let width = bounds.width
+        let path = UIBezierPath()
+        let height: CGFloat = 100
+
+        // Başlangıç noktası
+        path.move(to: CGPoint(x: 0, y: 0))
+            
+        // Üst kenar boyunca çiz
+        path.addLine(to: CGPoint(x: 0, y: height - 30))
+            
+        // Dalga kısmı
+        path.addCurve(to: CGPoint(x: width, y: height - 30),
+                      controlPoint1: CGPoint(x: width * 0.35, y: height),
+                      controlPoint2: CGPoint(x: width * 0.65, y: height - 60))
+            
+        // Sağ kenar boyunca çiz
+        path.addLine(to: CGPoint(x: width, y: 0))
+            
+        // Yolu kapat
+        path.close()
+            
+        return path
+    }
 
     // Stepper update
     @objc func update(_ stepper: UIStepper) {
