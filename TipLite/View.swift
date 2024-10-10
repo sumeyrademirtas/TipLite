@@ -106,7 +106,7 @@ class TipView: UIView {
     let splitlabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: .init(24))
-        label.text = "Split"
+        label.text = "Split into:"
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -126,7 +126,11 @@ class TipView: UIView {
         let label = UILabel()
         label.text = "1"
         label.textColor = .label
-        label.font = .systemFont(ofSize: .init(20))
+        label.textAlignment = .center
+        label.layer.cornerRadius = 5
+        label.backgroundColor = UIColor.mainOrange
+        label.font = .boldSystemFont(ofSize: .init(20))
+        label.layer.masksToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -143,7 +147,7 @@ class TipView: UIView {
     let totalLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.textColor = UIColor.darkGreen
+        label.textColor = UIColor.lightOrange
         label.font = .boldSystemFont(ofSize: .init(48))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -161,7 +165,7 @@ class TipView: UIView {
     let billPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.textColor = UIColor.darkGreen
+        label.textColor = UIColor.lightOrange
         label.font = .boldSystemFont(ofSize: .init(20))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -179,7 +183,7 @@ class TipView: UIView {
     let tipPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.textColor = UIColor.darkGreen
+        label.textColor = UIColor.lightOrange
         label.font = .boldSystemFont(ofSize: .init(20))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -210,8 +214,11 @@ class TipView: UIView {
         let percentageStack2 = UIStackView(arrangedSubviews: [tip20Button, customTipTextField])
         let wholePercentageStack = UIStackView(arrangedSubviews: [chooseTipLabel, percentageStack1, percentageStack2])
         
-        let stepperStack = UIStackView(arrangedSubviews: [peopleStepper, stepperValueLabel])
-        let splitAllStack = UIStackView(arrangedSubviews: [splitlabel, stepperStack])
+//        let stepperStack = UIStackView(arrangedSubviews: [peopleStepper, stepperValueLabel])
+//        let splitAllStack = UIStackView(arrangedSubviews: [splitlabel, stepperStack])
+        
+        let stepperStack = UIStackView(arrangedSubviews: [splitlabel, stepperValueLabel])
+        let splitAllStack = UIStackView(arrangedSubviews: [stepperStack, peopleStepper])
 
         let totalPerPersonStack = UIStackView(arrangedSubviews: [totalPerPersonLabel, totalLabel])
         
@@ -288,7 +295,7 @@ class TipView: UIView {
         totalAndBillTipStack.spacing = 20
         totalAndBillTipStack.alignment = .center
         totalAndBillTipStack.translatesAutoresizingMaskIntoConstraints = false
-        totalAndBillTipStack.backgroundColor = UIColor.lightGreen
+        totalAndBillTipStack.backgroundColor = UIColor.mainOrange
     
         NSLayoutConstraint.activate([
             // ScrollView constraints
@@ -326,6 +333,10 @@ class TipView: UIView {
             splitAllStack.topAnchor.constraint(equalTo: wholePercentageStack.bottomAnchor, constant: 30),
             splitAllStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             splitAllStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            stepperValueLabel.widthAnchor.constraint(equalToConstant: 40),
+            stepperValueLabel.heightAnchor.constraint(equalTo: splitlabel.heightAnchor),
+
 
             // totalAndBillTipStack constraints (splitAllStack'in altında)
             totalAndBillTipStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),

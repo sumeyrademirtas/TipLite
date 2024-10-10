@@ -31,4 +31,13 @@ extension UIColor {
     static var darkGreen: UIColor {
         return UIColor(hex: "3f855c")
     }
+    
+    static var mainOrange: UIColor {
+        return UIColor(hex: "FF8C00")
+    }
+
+    
+    static var lightOrange: UIColor {
+        return UIColor(hex: "#fae349")
+    }
 }
