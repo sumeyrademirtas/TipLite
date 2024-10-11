@@ -97,8 +97,8 @@ class ViewController: UIViewController {
             sender.text = customTipText
             
             // Text doluysa arka plan ve renk değişsin
-            sender.backgroundColor = UIColor.mainOrange
-            sender.textColor = .white
+            sender.backgroundColor = .buttonBackgroundOrange
+            sender.textColor = .buttonForegroundOrange
             
             // Girilen değer geçerliyse onu kullan, değilse 0 yap
             if let customTip = Double(customTipText) {
@@ -175,8 +175,8 @@ class ViewController: UIViewController {
 extension UIButton {
     func setSelected(_ isSelected: Bool) {
         if isSelected {
-            backgroundColor = UIColor.mainOrange
-            setTitleColor(.white, for: .normal)
+            backgroundColor = UIColor.buttonBackgroundOrange
+            setTitleColor(UIColor.buttonForegroundOrange, for: .normal)
         } else {
             backgroundColor = .systemGray6
             setTitleColor(.label, for: .normal)

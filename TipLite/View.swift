@@ -26,7 +26,7 @@ class TipView: UIView {
     let headerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .mainOrange
+        view.backgroundColor = .backgroundOrange
         return view
     }()
     
@@ -34,7 +34,7 @@ class TipView: UIView {
         let label = UILabel()
         label.text = "TipLite"
         label.font = .boldSystemFont(ofSize: 30)
-        label.textColor = UIColor.lightOrange
+        label.textColor = .foregroundOrange
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -77,7 +77,7 @@ class TipView: UIView {
         let button = UIButton()
         button.setTitle("10%", for: .normal)
         button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: .init(20))
+        button.titleLabel?.font = .boldSystemFont(ofSize: .init(20))
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = .init(10)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +88,7 @@ class TipView: UIView {
         let button = UIButton()
         button.setTitle("15%", for: .normal)
         button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: .init(20))
+        button.titleLabel?.font = .boldSystemFont(ofSize: .init(20))
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = .init(10)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -98,7 +98,7 @@ class TipView: UIView {
     let tip20Button: UIButton = {
         let button = UIButton()
         button.setTitle("20%", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: .init(20))
+        button.titleLabel?.font = .boldSystemFont(ofSize: .init(20))
         button.setTitleColor(.label, for: .normal)
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = .init(10)
@@ -111,7 +111,7 @@ class TipView: UIView {
         textField.placeholder = "Custom%"
         textField.textAlignment = .center
         textField.borderStyle = .roundedRect
-        textField.font = .systemFont(ofSize: .init(20))
+        textField.font = .boldSystemFont(ofSize: .init(20))
         textField.textColor = .label
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = .init(10)
@@ -143,10 +143,10 @@ class TipView: UIView {
     let stepperValueLabel: UILabel = {
         let label = UILabel()
         label.text = "1"
-        label.textColor = UIColor.lightOrange
+        label.textColor = .foregroundOrange
         label.textAlignment = .center
         label.layer.cornerRadius = 10
-        label.backgroundColor = UIColor.mainOrange
+        label.backgroundColor = .backgroundOrange
         label.font = .boldSystemFont(ofSize: .init(20))
         label.layer.masksToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -165,7 +165,7 @@ class TipView: UIView {
     let totalLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.textColor = UIColor.lightOrange
+        label.textColor = .foregroundOrange
         label.font = .boldSystemFont(ofSize: .init(48))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -183,7 +183,7 @@ class TipView: UIView {
     let billPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.textColor = UIColor.lightOrange
+        label.textColor = .foregroundOrange
         label.font = .boldSystemFont(ofSize: .init(20))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -201,7 +201,7 @@ class TipView: UIView {
     let tipPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.textColor = UIColor.lightOrange
+        label.textColor = .foregroundOrange
         label.font = .boldSystemFont(ofSize: .init(20))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -313,7 +313,7 @@ class TipView: UIView {
         totalAndBillTipStack.spacing = 20
         totalAndBillTipStack.alignment = .center
         totalAndBillTipStack.translatesAutoresizingMaskIntoConstraints = false
-        totalAndBillTipStack.backgroundColor = UIColor.mainOrange
+        totalAndBillTipStack.backgroundColor = .backgroundOrange
         totalAndBillTipStack.layer.cornerRadius = 10
     
         NSLayoutConstraint.activate([

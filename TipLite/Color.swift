@@ -24,16 +24,27 @@ extension UIColor {
     }
     
     // Custom color names
-       static var mainOrange: UIColor {
-           return UIColor { traitCollection in
-               return traitCollection.userInterfaceStyle == .dark ? UIColor(hex: "FF8C00") : UIColor(hex: "#FFA500")
-           }
-       }
-
-       static var lightOrange: UIColor {
-           return UIColor { traitCollection in
-               return traitCollection.userInterfaceStyle == .dark ? UIColor(hex: "#fae349") : UIColor(hex: "#FFFACD")
-           }
-       }
-
+    static var backgroundOrange: UIColor {
+        return UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ? UIColor(hex: "#E26B1C") : UIColor(hex: "#FF8C00")
+        }
+    }
+    
+    static var foregroundOrange: UIColor {
+        return UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ? UIColor(hex: "#E2F0EB") : UIColor(hex: "#E2F0EB")
+        }
+    }
+    
+    static var buttonBackgroundOrange: UIColor {
+        return UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ? UIColor(hex: "#E26B1C") : UIColor(hex: "#FF8C00")
+        }
+    }
+    
+    static var buttonForegroundOrange: UIColor {
+        return UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark ? UIColor(hex: "#E2F0EB") : UIColor(hex: "#E2F0EB")
+        }
+    }
 }
