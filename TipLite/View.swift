@@ -143,7 +143,7 @@ class TipView: UIView {
     let stepperValueLabel: UILabel = {
         let label = UILabel()
         label.text = "1"
-        label.textColor = .label
+        label.textColor = UIColor.lightOrange
         label.textAlignment = .center
         label.layer.cornerRadius = 10
         label.backgroundColor = UIColor.mainOrange
@@ -383,7 +383,7 @@ class TipView: UIView {
     
     // MARK: - Functions
     
-    // MARK: - Dalga Efekti Ekleme
+    // Apply WaveEffect func
         
     private func applyWaveEffectToHeader() {
         let waveLayer = CAShapeLayer()
