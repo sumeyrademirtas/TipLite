@@ -24,7 +24,6 @@ TipLite is a simple and intuitive tip calculator app that helps users calculate 
 - Architecture: MVC (Model-View-Controller) pattern
 - Responsive Design: Auto layout-based for responsiveness across different iPhone devices.
 - Developed with: Xcode 16.0
-- Ad-free experience
 
   
 ## Design
